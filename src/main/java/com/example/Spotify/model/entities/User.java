@@ -15,7 +15,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "spotify_users")
 @Getter
 @Setter
 public class User {

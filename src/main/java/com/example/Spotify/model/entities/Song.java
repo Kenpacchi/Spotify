@@ -8,11 +8,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "songs")
+@Getter
+@Setter
 public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +38,5 @@ public class Song {
     private Long views;
 
     @Column(name = "upload_date")
-    private LocalDate uploadDate;
-
-    // Getters and setters...
+    private Date uploadDate;
 }

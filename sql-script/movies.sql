@@ -1,0 +1,3 @@
+CREATE TABLE movies (
+    movie_id BIGSERIAL PRIMARY KEY
+);
