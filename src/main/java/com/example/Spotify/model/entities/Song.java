@@ -37,6 +37,9 @@ public class Song {
     @Column(name = "views")
     private Long views;
 
+    @Column
+    private int duration;
+
     @Column(name = "upload_date")
     private Date uploadDate;
 }

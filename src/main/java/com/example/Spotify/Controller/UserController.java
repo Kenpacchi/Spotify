@@ -1,9 +1,11 @@
 package com.example.Spotify.Controller;
 
+import com.example.Spotify.model.entities.Playlist;
 import com.example.Spotify.model.entities.Song;
 import com.example.Spotify.model.entities.User;
 import com.example.Spotify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +28,15 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/add-to-playlist")
-    public String addToPlaylist(@PathVariable Long userId, @RequestParam String songName) {
-        service.addToPlaylist(userId, songName);
+    public String addToPlaylist(@PathVariable Long userId, @RequestParam String songName, @RequestParam String playlistName) {
+        service.addToPlaylist(userId, songName, playlistName);
         return "Song added to playlist.";
+    }
+
+    @GetMapping("/{mobileNumber}/get-playlist-by-name")
+    public ResponseEntity<Playlist> getPlaylistByName(
+            @RequestParam String playlistName,
+            @PathVariable String mobileNumber) {
+        return service.getPlaylistByName(mobileNumber, playlistName);
     }
 }

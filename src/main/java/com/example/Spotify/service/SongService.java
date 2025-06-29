@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class SongService {
@@ -22,14 +23,15 @@ public class SongService {
     private SongRepository songRepository;
 
     public List<Song> getRecommendedSongs(Long userId) {
-        List<Song> userPlaylist = userRepository.findById(userId).map(User::getUserPlaylist).orElse(List.of());
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Set<String> artists = new HashSet<>();
+        Set<String> artistNames = user.getPlaylists().stream()
+                .flatMap(playlist -> playlist.getSongs().stream())
+                .map(song -> song.getArtist().getArtistName())
+                .collect(Collectors.toSet());
 
-        for (Song song : userPlaylist) {
-            artists.add(song.getArtist().getArtistName());
-        }
-        return songRepository.findAllSongByArtistNames(artists);
+        return songRepository.findAllByArtistNameIn(artistNames);
     }
 
     public List<Song> findSongsByName(String name) {
